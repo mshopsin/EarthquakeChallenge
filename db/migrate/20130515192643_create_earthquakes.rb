@@ -14,10 +14,11 @@ class CreateEarthquakes < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :Eqid, unique: true
-    add_index :Datetime
-    add_index :Lat
-    add_index :Lon
-    add_index :Magnitude
+    
+    add_index :earthquakes, :Datetime
+    add_index :earthquakes, :Lat
+    add_index :earthquakes, :Lon
+    add_index :earthquakes, :Magnitude
+    add_index :earthquakes, :Eqid, :unique => true
   end
 end
