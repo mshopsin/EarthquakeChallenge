@@ -10,22 +10,22 @@ class Earthquake < ActiveRecord::Base
       event_date = DateTime.strptime( "#{query_hash[:on]}","%s" )
       start_date = Time.new(event_date.year, event_date.month, event_date.day)
       end_date =  start_date + 60 * 60 * 24
-      earthquakes = earthquakes.where("Datetime >= ? AND Datetime <= ?", start_date, end_date)
+      earthquakes = earthquakes.where("earthquakes.Datetime >= ? AND earthquakes.Datetime <= ?", start_date, end_date)
     end
     
     if query_hash.has_key? :since
       event_date = DateTime.strptime( "#{query_hash[:since]}","%s" )
       start_date = Time.new(event_date.year, event_date.month, event_date.day)
-      earthquakes = earthquakes.where("Datetime >= ?", start_date)
+      earthquakes = earthquakes.where("earthquakes.Datetime >= ?", start_date)
     end
     
     if query_hash.has_key? :over
-      earthquakes = earthquakes.where("Magnitude >= ?", query_hash[:over])
+      earthquakes = earthquakes.where("earthquakes.Magnitude >= ?", query_hash[:over])
     end
     
     if query_hash.has_key? :near
       coord = query_hash[:near].split(',')
-      earthquakes = earthquakes.where("((ACOS(SIN(Lat * PI() / 180) * SIN(:lat * PI() / 180) + COS(Lat * PI() / 180) * COS(:lat * PI() / 180) * COS((Lon - :lon) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) < 5", {:lat => coord[0], :lon => coord[1]})
+      earthquakes = earthquakes.where("((ACOS(SIN(earthquakes.Lat * PI() / 180) * SIN(:lat * PI() / 180) + COS(earthquakes.Lat * PI() / 180) * COS(:lat * PI() / 180) * COS((earthquakes.Lon - :lon) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) < 5", {:lat => coord[0], :lon => coord[1]})
     end
     
     earthquakes #defaults to returning 100 most recent earthquakes
