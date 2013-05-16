@@ -27,7 +27,7 @@ class Earthquake < ActiveRecord::Base
       coord = query_hash[:near].split(',')
       targ_Lat = coord[0]
       targ_Lon = coord[1]
-      earthquakes = earthquakes.where("((ACOS(SIN(Lat * PI() / 180) * SIN(:lat * PI() / 180) + COS(Lat * PI() / 180) * COS(:lat * PI() / 180) * COS((Lon - :lon) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) < 5",
+      earthquakes = earthquakes.where("((ACOS(SIN(Lat * PI() / 180) * SIN(:lat * PI() / 180) + COS(Lat * PI() / 180) * COS(lat * PI() / 180) * COS((Lon - :lon) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) < 5",
                                           {:lat => targ_Lat, :lon => targ_Lon})
     end
     
