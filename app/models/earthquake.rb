@@ -16,12 +16,11 @@ class Earthquake < ActiveRecord::Base
     if query_hash.has_key? :since
       event_date = DateTime.strptime( "#{query_hash[:since]}","%s" )
       start_date = Time.new(event_date.year, event_date.month, event_date.day)
-      end_date = Time.new
-      earthquakes = earthquakes.where(:Datetime => start_date..end_date)
+      earthquakes = earthquakes.where("\"Datetime\" >= ?", start_date)
     end
     
     if query_hash.has_key? :over
-      earthquakes = earthquakes.where(:Magnitude => query_hash[:over]..100) #the scale doesn't really go over ten so I figured I am safe
+      earthquakes = earthquakes.where("\"Magnitude\" > ?", query_hash[:over]) #the scale doesn't really go over ten so I figured I am safe
     end
     
     if query_hash.has_key? :near
