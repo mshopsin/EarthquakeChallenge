@@ -7,6 +7,15 @@ gem 'rails', '3.2.13'
 
 gem 'pg', '0.12.2'
 gem 'rest-client'
+gem 'rspec-rails', :group => [:development, :test]
+gem 'factory_girl_rails', :group => [:development, :test]
+
+group :test do
+  gem 'database_cleaner'
+  gem 'email_spec'
+  gem 'launchy'
+  gem 'capybara'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -22,7 +22,7 @@ class Earthquake < ActiveRecord::Base
     if query_hash.has_key? :over
       earthquakes = earthquakes.where("\"Magnitude\" > ?", query_hash[:over]) #the scale doesn't really go over ten so I figured I am safe
     end
-    
+    #http://stackoverflow.com/questions/1896213/determine-if-one-coordinate-is-in-radius-of-another
     if query_hash.has_key? :near
       coord = query_hash[:near].split(',')
       earthquakes = earthquakes.where("((ACOS(SIN(\"Lat\" * PI() / 180) * SIN(:lat * PI() / 180) + COS(\"Lat\" * PI() / 180) * COS(:lat * PI() / 180) * COS((\"Lon\" - :lon) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) < 5", {:lat => coord[0], :lon => coord[1]})
